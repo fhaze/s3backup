@@ -1,6 +1,6 @@
 ## s3backup
 
-Script para automatizar tarefas de backup com o S3 da AWS. **Versao Atual: 1.21b**
+Script para automatizar tarefas de backup com o S3 da AWS.
 
 ## Recursos
 - Download de arquivos
