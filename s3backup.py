@@ -3,14 +3,16 @@ import getopt
 import sys
 
 # parametros de config
-BUCKET_NAME = 'nome_bucket'
-BACKUP_FOLDER = 'backup/'
+S3_BUCKET_NAME = 'nome_bucket'
+S3_BACKUP_FOLDER = 'backup/'
+LOCAL_WORKING_DIR = './'
 
 # cli usage info
 USAGE_INFO = 'usage: s3backup.py -o <operação> <outros_comandos>\n\toperações disponiveis: download e upload'
 USAGE_INFO_DOWNLOAD = 'usage: s3backup.py -o download -f <arquivo>'
 USAGE_INFO_UPLOAD = 'usage: s3backup.py -o upload -f <arquivo>'
 
+# operações
 SHORT_OPT = "ho:f:"
 LONG_OPT = ["help", "operation=", "file="]
 
@@ -50,10 +52,10 @@ def upload_backup(argv):
         print(USAGE_INFO_UPLOAD)
         sys.exit()
 
-    ofile = BACKUP_FOLDER + file
+    ofile = S3_BACKUP_FOLDER + file
 
     s3 = boto3.client('s3')
-    s3.upload_file(file, BUCKET_NAME, ofile)
+    s3.upload_file(LOCAL_WORKING_DIR + file, S3_BUCKET_NAME, ofile)
 
 
 def download_backup(argv):
@@ -70,10 +72,10 @@ def download_backup(argv):
         print(USAGE_INFO_DOWNLOAD)
         sys.exit()
 
-    dfile = BACKUP_FOLDER + file
+    dfile = S3_BACKUP_FOLDER + file
 
     s3 = boto3.client('s3')
-    s3.download_file(BUCKET_NAME, dfile, file)
+    s3.download_file(S3_BUCKET_NAME, dfile, LOCAL_WORKING_DIR + file)
 
 
 if __name__ == '__main__':
